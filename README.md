@@ -1,5 +1,7 @@
 [![Claude Code Projects Index](https://img.shields.io/badge/Claude%20Code-Projects%20Index-blue?style=flat-square&logo=github)](https://github.com/danielrosehill/Claude-Code-Repos-Index)
 
+> **See also**: [Open Research Workspace](https://github.com/danielrosehill/Claude-Research-Space-Public-Template) — a variant of this template designed for public/open-source research (adds export commands, publishing integrations, and public-audience formatting).
+
 # Claude Research Workspace
 
 A template for conducting iterative AI-assisted research using Claude Code as the execution engine.
