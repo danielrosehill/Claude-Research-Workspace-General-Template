@@ -1,3 +1,5 @@
+[![Claude Code Projects Index](https://img.shields.io/badge/Claude%20Code-Projects%20Index-blue?style=flat-square&logo=github)](https://github.com/danielrosehill/Claude-Code-Repos-Index)
+
 # Claude Research Workspace
 
 A template for conducting iterative AI-assisted research using Claude Code as the execution engine.
@@ -127,3 +129,7 @@ Review the output in `outputs/individual/`, write follow-up prompts in `prompts/
 ## License
 
 MIT
+
+---
+
+For more Claude Code projects, visit my [Claude Code Projects Index](https://github.com/danielrosehill/Claude-Code-Repos-Index).
