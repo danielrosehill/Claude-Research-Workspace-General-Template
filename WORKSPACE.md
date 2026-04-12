@@ -24,7 +24,7 @@ Quick reference for where things live in this research workspace. For the full c
 | `outputs/final/` | Polished deliverables |
 | `notes/` | Working notes, observations, methodology |
 
-## Root orientation files
+## Root files
 
 | File | Role |
 |---|---|
@@ -32,3 +32,4 @@ Quick reference for where things live in this research workspace. For the full c
 | `MEMORY.md` | Persistent memory policy (default store: `context/from-history/`) |
 | `WORKSPACE.md` | This file — path map |
 | `CLAUDE.md` | Full agent instructions and workflow |
+| `exchanges.yaml` | Machine-readable log of every prompt/output exchange (auto-maintained) |

@@ -21,8 +21,9 @@ These are stable orientation. The live research state lives in `outputs/individu
 1. Read all files in `context/` to build background understanding
 2. Read the prompt file from `prompts/run/` (initial or subsequent)
 3. Conduct the research using available tools (web search, document analysis, reasoning)
-4. Save the output to `outputs/individual/` with format: `YYYY-MM-DD-{slug}.md`
+4. Save the output following the thread-mode rules below
 5. If the prompt file was in `prompts/queue/`, move it to the appropriate `prompts/run/` folder after execution
+6. Log the exchange to `exchanges.yaml` (see Exchange Log below)
 
 ### Prompts given directly in chat
 
@@ -40,29 +41,135 @@ Before running any subsequent prompt, always read:
 - All files in `context/from-human/` (operator-provided material)
 - The most recent outputs in `outputs/individual/` if they're relevant
 
-### Output formatting
+## Thread Mode (default behaviour)
 
-- Every output in `outputs/individual/` **must begin with a provenance block** before any content:
+Successive prompts on the same topic are **appended to a single output file** as numbered exchanges rather than split into separate files. This is the default.
 
+### How it works
+
+1. **First prompt on a topic** creates `outputs/individual/YYYY-MM-DD-{slug}.md` with Exchange 1.
+2. **Follow-up prompts in the same session on the same topic** append as Exchange 2, 3, etc. to the same file.
+3. Each exchange gets its own `### Exchange N` heading, provenance sub-block, key findings, and sources.
+4. The file's top-level provenance block records the thread as a whole.
+
+### Thread output format
+
+```markdown
+---
+thread: YYYY-MM-DD-{slug}
+topic: Short description of the thread topic
+started: YYYY-MM-DD
+exchange_count: N
+---
+
+# {Thread Topic}
+
+## Exchange 1
+
+**Prompt**: prompts/run/initial/YYYY-MM-DD-{slug}.md
+**Summary**: One-sentence restatement.
+
+### Key Findings
+
+...
+
+### Sources
+
+...
+
+## Exchange 2
+
+**Prompt**: prompts/run/subsequent/YYYY-MM-DD-{slug-2}.md
+**Summary**: One-sentence restatement.
+
+### Key Findings
+
+...
+
+### Sources
+
+...
+```
+
+### When to start a new file instead
+
+- The user explicitly says "separate output", "new file", or similar
+- The new prompt is on a **clearly different topic** from the active thread
+- It's a new day (threads don't span midnight — start a fresh file)
+
+When in doubt, ask: "This looks related to the current thread — append, or start a new file?"
+
+### Updating the thread frontmatter
+
+After appending an exchange, update `exchange_count` in the top-level provenance block.
+
+## Exchange Log (`exchanges.yaml`)
+
+Every prompt/output exchange is logged to `exchanges.yaml` at the repo root. This is the canonical machine-readable record of all research activity.
+
+### Schema
+
+```yaml
+exchanges:
+  - id: 1
+    date: "2026-04-12"
+    prompt_path: "prompts/run/initial/2026-04-12-example.md"
+    prompt_summary: "What are the main approaches to distributed caching?"
+    output_path: "outputs/individual/2026-04-12-distributed-caching.md"
+    exchange_in_file: 1
+    thread: "2026-04-12-distributed-caching"
+    tools_used:
+      - web_search
+      - document_analysis
+
+  - id: 2
+    date: "2026-04-12"
+    prompt_path: "prompts/run/subsequent/2026-04-12-redis-vs-memcached.md"
+    prompt_summary: "How does Redis compare to Memcached for session storage?"
+    output_path: "outputs/individual/2026-04-12-distributed-caching.md"
+    exchange_in_file: 2
+    thread: "2026-04-12-distributed-caching"
+    tools_used:
+      - web_search
+```
+
+### Fields
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | int | Auto-incrementing, 1-based |
+| `date` | string | ISO date of the exchange |
+| `prompt_path` | string | Path to the persisted prompt file |
+| `prompt_summary` | string | One-sentence restatement |
+| `output_path` | string | Path to the output file (thread file if threaded) |
+| `exchange_in_file` | int | Which exchange number within the output file |
+| `thread` | string | Thread slug — matches the output filename stem |
+| `tools_used` | list | Which research tools were used (web_search, document_analysis, reasoning, etc.) |
+
+### Rules
+
+- Append-only. Never rewrite or reorder existing entries.
+- Create the file with a header comment on first use:
+  ```yaml
+  # Research exchange log — auto-maintained, do not edit manually
+  exchanges:
   ```
-  ---
-  prompt_path: prompts/run/initial/2026-04-09-example.md
-  prompt_summary: One-sentence restatement of what was asked.
-  run_date: 2026-04-09
-  ---
-  ```
+- Log the exchange **after** the output is written, so paths are accurate.
 
-  This lets any reader (and future compaction/consolidation passes) link an output back to the exact prompt that generated it.
+## Output formatting
+
 - Use clear markdown with headers, bullet points, and tables where appropriate
-- Include a `## Sources` section at the end of every research output
-- Use `## Key Findings` as the opening section (immediately after the provenance block)
-- Date-stamp all outputs in the filename (`YYYY-MM-DD-{slug}.md`)
+- Include a `## Sources` / `### Sources` section at the end of every exchange
+- Use `## Key Findings` / `### Key Findings` as the opening section
+- Date-stamp all output filenames (`YYYY-MM-DD-{slug}.md`)
 
-### Same-day consolidation
+## Same-day consolidation
 
-When several prompts are run in a single day, use `/consolidate-day` to merge same-day outputs into `outputs/aggregated/markdown/YYYY-MM-DD-daily-digest.md`. After running a prompt, if other outputs from the same day already exist, proactively remind the user that `/consolidate-day` is available — do not auto-merge without being asked.
+When several **separate** output files (not threaded exchanges) exist from the same day, use `/consolidate-day` to merge them into `outputs/aggregated/markdown/YYYY-MM-DD-daily-digest.md`. After creating a new separate file, if other files from the same day already exist, remind the user that `/consolidate-day` is available — do not auto-merge without being asked.
 
-### Compaction
+Note: threaded exchanges within a single file don't need consolidation — they're already together.
+
+## Compaction
 
 When instructed to compact (or when context is getting large), summarize the current research state:
 - Read all files in `outputs/individual/`
@@ -70,7 +177,7 @@ When instructed to compact (or when context is getting large), summarize the cur
 - The summary should preserve key findings, sources, open questions, and contradictions
 - This becomes the foundation context for subsequent research iterations
 
-### Aggregation
+## Aggregation
 
 When instructed to aggregate:
 - Combine relevant individual outputs into a single document in `outputs/aggregated/markdown/`

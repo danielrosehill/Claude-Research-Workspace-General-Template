@@ -15,6 +15,10 @@ Where durable knowledge about this research project lives.
 | Web sources and external reference material | `context/from-internet/` |
 | Working notes, hunches, methodology | `notes/` |
 
+## Exchange log
+
+`exchanges.yaml` at the repo root is the machine-readable record of every prompt/output exchange. It is append-only and auto-maintained — do not edit manually. Use it to reconstruct the full research timeline, thread membership, and tool usage programmatically.
+
 ## Compaction
 
 When context grows large, run a compaction pass: read `outputs/individual/`, distill key findings, open questions, and contradictions into a dated file in `context/from-history/`. This becomes the foundation for the next iteration. See `CLAUDE.md` → *Compaction* for the full procedure.
