@@ -2,24 +2,17 @@
 
 ## What This Is
 
-This is a structured research workspace powered by Claude Code. It uses a folder-based pattern for iterative AI research: context goes in, prompts get run, outputs get saved, and previous outputs feed back as context for deeper investigation.
+This is a **private research notebook** powered by Claude Code. It uses a folder-based pattern for iterative AI research: context goes in, prompts get run, outputs get saved, and previous outputs feed back as context for deeper investigation.
 
-## Directory Map
+## Root orientation files (read these first)
 
-| Directory | Purpose |
-|-----------|---------|
-| `context/from-human/` | Background info, notes, source material you provide |
-| `context/from-history/` | Compacted summaries from previous research iterations |
-| `context/from-internet/` | Web sources, articles, reference material |
-| `prompts/drafting/` | Prompts under development |
-| `prompts/queue/` | Prompts ready to run (in order) |
-| `prompts/run/initial/` | First-pass research prompts |
-| `prompts/run/subsequent/` | Follow-up prompts that build on earlier outputs |
-| `outputs/individual/` | Raw output from each prompt run |
-| `outputs/aggregated/markdown/` | Combined multi-output documents |
-| `outputs/aggregated/pdf/` | PDF exports of aggregated research |
-| `outputs/final/` | Polished deliverables |
-| `notes/` | Working notes, observations, methodology |
+| File | Role |
+|---|---|
+| `CONTEXT.md` | Always-on background: topic, framing, key domain facts |
+| `MEMORY.md` | Persistent-memory policy (default store: `context/from-history/`) |
+| `WORKSPACE.md` | Quick path map of the folder contract below |
+
+These are stable orientation. The live research state lives in `outputs/individual/` and `context/from-history/`.
 
 ## Research Workflow
 
@@ -31,6 +24,15 @@ This is a structured research workspace powered by Claude Code. It uses a folder
 4. Save the output to `outputs/individual/` with format: `YYYY-MM-DD-{slug}.md`
 5. If the prompt file was in `prompts/queue/`, move it to the appropriate `prompts/run/` folder after execution
 
+### Prompts given directly in chat
+
+If the user supplies a research prompt directly in the chat (rather than placing a file in `prompts/queue/`), first persist it before acting on it:
+
+1. Save the prompt verbatim to `prompts/run/initial/YYYY-MM-DD-{slug}.md` (or `prompts/run/subsequent/` if it builds on prior outputs), using today's date.
+2. Then process it following the normal "Running a prompt" workflow above.
+
+This guarantees every piece of research in the repo has a corresponding, dated prompt file on disk.
+
 ### Building on previous work
 
 Before running any subsequent prompt, always read:
@@ -40,10 +42,25 @@ Before running any subsequent prompt, always read:
 
 ### Output formatting
 
+- Every output in `outputs/individual/` **must begin with a provenance block** before any content:
+
+  ```
+  ---
+  prompt_path: prompts/run/initial/2026-04-09-example.md
+  prompt_summary: One-sentence restatement of what was asked.
+  run_date: 2026-04-09
+  ---
+  ```
+
+  This lets any reader (and future compaction/consolidation passes) link an output back to the exact prompt that generated it.
 - Use clear markdown with headers, bullet points, and tables where appropriate
 - Include a `## Sources` section at the end of every research output
-- Use `## Key Findings` as the opening section
-- Date-stamp all outputs in the filename
+- Use `## Key Findings` as the opening section (immediately after the provenance block)
+- Date-stamp all outputs in the filename (`YYYY-MM-DD-{slug}.md`)
+
+### Same-day consolidation
+
+When several prompts are run in a single day, use `/consolidate-day` to merge same-day outputs into `outputs/aggregated/markdown/YYYY-MM-DD-daily-digest.md`. After running a prompt, if other outputs from the same day already exist, proactively remind the user that `/consolidate-day` is available — do not auto-merge without being asked.
 
 ### Compaction
 

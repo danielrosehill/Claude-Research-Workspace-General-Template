@@ -1,30 +1,15 @@
-# SCOPE — Claude-Research-Workspace-General-Template
+# SCOPE — Research Project
 
-## What this repo is
+> Replace this file with the scope boundary for your research project.
 
-The **lean, general-purpose** Claude Code research workspace template. It is the **base** that `Claude-Research-Space-Public-Template` extends.
+## What this research covers
 
-## What it does NOT include
+Describe the domain, questions, and boundaries of this research.
 
-Compared to `Claude-Research-Space-Public-Template`, this template deliberately omits:
+## What this research does NOT cover
 
-- Publishing config (`.env.example`, `publishing-config.example.json`)
-- `scripts/` publishing helpers
-- `private/` split and `outputs/published/` target
-- `voice-notes/` capture area
-- Slash commands: `export`, `publish-readme`, `setup-publishing`, `voice-note`
+Explicitly list topics, geographies, timeframes, or angles that are out of scope — this prevents scope creep during iterative research.
 
-## When to use this one
+## Template origin
 
-Use this template when you want a **clean research workspace** with no publishing pipeline, no public/private split, and no voice-note tooling — just the core research workflow.
-
-## When to use the other one instead
-
-If the workspace needs to publish outputs (GitHub, site, etc.) or wants voice-note capture and a public/private split, use `Claude-Research-Space-Public-Template` instead.
-
-## Relationship
-
-`Claude-Research-Workspace-General-Template` = base (this repo)
-`Claude-Research-Space-Public-Template` = base + publishing layer
-
-Improvements to shared files should generally flow base → public.
+This workspace was scaffolded from [Claude-Research-Workspace-General-Template](https://github.com/danielrosehill/Claude-Research-Workspace-General-Template) — a private research notebook template for iterative AI-assisted research.

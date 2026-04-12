@@ -111,6 +111,7 @@ Review the output in `outputs/individual/`, write follow-up prompts in `prompts/
 | `/run-prompt` | Execute the next prompt in the queue |
 | `/compact` | Summarise outputs into compacted history |
 | `/aggregate` | Combine individual outputs into a single document |
+| `/consolidate-day` | Merge same-day outputs into a single daily digest |
 | `/status` | Show research progress (prompts run, outputs generated, queue length) |
 
 ## Spinning Up a New Research Project
