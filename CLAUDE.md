@@ -16,21 +16,12 @@ These are stable orientation. The live research state lives in `outputs/individu
 
 ## Research Workflow
 
-### Running a prompt
-
-1. Read all files in `context/` to build background understanding
-2. Read the prompt file from `prompts/run/` (initial or subsequent)
-3. Conduct the research using available tools (web search, document analysis, reasoning)
-4. Save the output following the thread-mode rules below
-5. If the prompt file was in `prompts/queue/`, move it to the appropriate `prompts/run/` folder after execution
-6. Log the exchange to `exchanges.yaml` (see Exchange Log below)
-
 ### Prompts given directly in chat
 
 If the user supplies a research prompt directly in the chat (rather than placing a file in `prompts/queue/`), first persist it before acting on it:
 
 1. Save the prompt to `prompts/run/initial/YYYY-MM-DD-{slug}.md` (or `prompts/run/subsequent/` if it builds on prior outputs), using today's date. **Lightly clean the prompt** before saving — do not paste it verbatim. The goal is to capture the substance of the question(s), not every character the user typed.
-2. Then process it following the normal "Running a prompt" workflow above.
+2. Then process it following the normal "Running a prompt" workflow below.
 
 ### Light cleanup rules for persisted prompts
 
@@ -43,6 +34,15 @@ Always apply a brief editorial pass before saving:
 - Keep it recognizable as the user's own phrasing — this is a light polish, not a rewrite.
 
 This guarantees every piece of research in the repo has a corresponding, dated prompt file on disk — and the persisted record is readable rather than a literal transcript.
+
+### Running a prompt
+
+1. Read all files in `context/` to build background understanding
+2. Read the prompt file from `prompts/run/` (initial or subsequent)
+3. Conduct the research using available tools (web search, document analysis, reasoning)
+4. Save the output following the thread-mode rules below
+5. If the prompt file was in `prompts/queue/`, move it to the appropriate `prompts/run/` folder after execution
+6. Log the exchange to `exchanges.yaml` (see Exchange Log below)
 
 ### Building on previous work
 
