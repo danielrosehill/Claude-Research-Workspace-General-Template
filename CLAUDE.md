@@ -29,10 +29,20 @@ These are stable orientation. The live research state lives in `outputs/individu
 
 If the user supplies a research prompt directly in the chat (rather than placing a file in `prompts/queue/`), first persist it before acting on it:
 
-1. Save the prompt verbatim to `prompts/run/initial/YYYY-MM-DD-{slug}.md` (or `prompts/run/subsequent/` if it builds on prior outputs), using today's date.
+1. Save the prompt to `prompts/run/initial/YYYY-MM-DD-{slug}.md` (or `prompts/run/subsequent/` if it builds on prior outputs), using today's date. **Lightly clean the prompt** before saving — do not paste it verbatim. The goal is to capture the substance of the question(s), not every character the user typed.
 2. Then process it following the normal "Running a prompt" workflow above.
 
-This guarantees every piece of research in the repo has a corresponding, dated prompt file on disk.
+### Light cleanup rules for persisted prompts
+
+Always apply a brief editorial pass before saving:
+
+- Fix obvious typos, mis-segmented words, and voice-typing / one-handed-typing artifacts (homophones, missing spaces, stray characters).
+- Trim filler — "so", "basically", "I was thinking maybe", false starts, mid-sentence restarts, meta-commentary ("ignore the last bit, what I meant was...").
+- Normalize punctuation and paragraph breaks for readability.
+- Preserve the user's **intent, questions, structure, and emphasis**. Do not rewrite, reorder, or add new requirements.
+- Keep it recognizable as the user's own phrasing — this is a light polish, not a rewrite.
+
+This guarantees every piece of research in the repo has a corresponding, dated prompt file on disk — and the persisted record is readable rather than a literal transcript.
 
 ### Building on previous work
 
